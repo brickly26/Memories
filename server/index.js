@@ -15,7 +15,7 @@ app.use('/posts', postRoutes);
 
 const CONNECTION_URL =
   "mongodb+srv://Brickly26:Rocket*boy1@cluster0.xngnu.mongodb.net/?retryWrites=true&w=majority";
-const PORT = (process.env.PORT = 3030);
+const PORT = process.env.PORT || 3030;
 
 mongoose
   .connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
