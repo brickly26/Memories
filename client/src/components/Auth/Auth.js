@@ -3,6 +3,7 @@ import { Avatar, Button, Paper, Grid, Typography, Container } from "@material-ui
 import { GoogleLogin } from "react-google-login";
 import { gapi } from 'gapi-script'
 import { useDispatch } from 'react-redux'
+import { useHistory } from "react-router-dom";
 
 import Icon from './icon'
 import LockOutlineIcon from "@material-ui/icons/LockOutlined";
@@ -13,9 +14,10 @@ const clientId = "827411038781-a20bhmorup9qvgufvgs2muv400gh2776.apps.googleuserc
 
 const Auth = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     function start() {
@@ -46,6 +48,7 @@ const Auth = () => {
 
     try {
       dispatch({ type: 'AUTH', data: { result, token } });
+      history.push('/');
     } catch (error) {
       console.log(error);
     }
