@@ -3,7 +3,9 @@ import { Avatar, Button, Paper, Grid, Typography, Container } from "@material-ui
 import { GoogleLogin } from "react-google-login";
 import { gapi } from 'gapi-script'
 import { useDispatch } from 'react-redux'
+import { useHistory } from "react-router-dom";
 
+import { signin, signup } from '../../actions/auth'
 import Icon from './icon'
 import LockOutlineIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
@@ -11,11 +13,15 @@ import useStyles from "./styles";
 
 const clientId = "827411038781-a20bhmorup9qvgufvgs2muv400gh2776.apps.googleusercontent.com"
 
+const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
+
 const Auth = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const [formData, setFormData] = useState(initialState);
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
-  const dispatch = useDispatch();
 
   useEffect(() => {
     function start() {
@@ -31,9 +37,21 @@ const Auth = () => {
   const handleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
 
-  const handleSubmit = () => {};
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  const handleChange = () => {};
+    console.log(history)
+    
+    if(isSignup) {
+      dispatch(signup(formData, history))
+    } else {
+      dispatch(signin(formData, history))
+    }
+  };
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  };
 
   const switchMode = () => {
     setIsSignup((prevIsSignup) => !prevIsSignup);
@@ -46,6 +64,7 @@ const Auth = () => {
 
     try {
       dispatch({ type: 'AUTH', data: { result, token } });
+      history.push('/');
     } catch (error) {
       console.log(error);
     }
