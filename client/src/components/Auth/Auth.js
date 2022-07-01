@@ -1,16 +1,32 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Avatar, Button, Paper, Grid, Typography, Container } from "@material-ui/core";
 import { GoogleLogin } from "react-google-login";
+import { gapi } from 'gapi-script'
+import { useDispatch } from 'react-redux'
 
 import Icon from './icon'
 import LockOutlineIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
 import useStyles from "./styles";
 
+const clientId = "827411038781-a20bhmorup9qvgufvgs2muv400gh2776.apps.googleusercontent.com"
+
 const Auth = () => {
   const classes = useStyles();
   const [showPassword, setShowPassword] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    function start() {
+      gapi.client.init({
+        clientId: clientId,
+        scope: ""
+      })
+    };
+
+    gapi.load('client:auth2', start)
+  }, [])
 
   const handleShowPassword = () =>
     setShowPassword((prevShowPassword) => !prevShowPassword);
@@ -25,7 +41,14 @@ const Auth = () => {
   };
 
   const googleSuccess = async (res) => {
-    console.log(res);
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+
+    try {
+      dispatch({ type: 'AUTH', data: { result, token } });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const googleFailure = (error) => {
@@ -59,7 +82,7 @@ const Auth = () => {
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleLogin
-            clientId="827411038781-a20bhmorup9qvgufvgs2muv400gh2776.apps.googleusercontent.com"
+            clientId={clientId}
             render={(renderProps) => (
               <Button className={classes.googleButton} color="primary" fullWidth onClick={renderProps.onClick} disabled={renderProps.disabled} startIcon={<Icon />} variant="contained" >Google Sign In</Button>
             )}
