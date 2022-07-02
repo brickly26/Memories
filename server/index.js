@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/posts", postRoutes);
-app.use('/user', userRoutes);
+app.use("/user", userRoutes);
 
 // const CONNECTION_URL = "mongodb+srv://Brickly26:Rocket*boy1@cluster0.xngnu.mongodb.net/?retryWrites=true&w=majority";
 const PORT = process.env.PORT || 3030;
