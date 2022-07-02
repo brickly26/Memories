@@ -15,7 +15,7 @@ export const signin = async (req, res) => {
 
         if (!isPasswordCorrect) return res.status(400).json({ message: 'Invalid credentials'});
 
-        const toke = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'test', { expiresIn: '1h' });
+        const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'test', { expiresIn: '1h' });
 
         res.status(200).json({ result: existingUser, token })
     } catch (error) {
@@ -31,7 +31,7 @@ export const signup = async (req, res) => {
 
         if (existingUser) return res.status(400).json({ message: 'User already exists.' });
 
-        if (passowrd !== confirmPassword) return res.statsu(400).json({ messahe: 'Passwords dont match '});
+        if (password !== confirmPassword) return res.status(400).json({ messahe: 'Passwords dont match '});
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
@@ -41,6 +41,6 @@ export const signup = async (req, res) => {
 
         res.status(200).json({ result, token });
     } catch (error) {
-        res.statsu(500).json({ message: 'Something went wrong.' })
+        res.status(500).json({ message: 'Something went wrong.' })
     }
 }
