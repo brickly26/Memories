@@ -1,10 +1,11 @@
 import express from 'express';
 
-import { getPostsBySearch, getPosts, getPost, createPost, updatePost, commentPost, deletePost, likePost } from '../controllers/posts.js';
+import { getPostsBySearch, getPostsByCreator, getPosts, getPost, createPost, updatePost, commentPost, deletePost, likePost } from '../controllers/posts.js';
 import auth from '../middleware/auth.js';
 
 const router = express.Router();
 
+router.get('/creator', getPostsByCreator)
 router.get('/', getPosts);
 router.get('/search', getPostsBySearch)
 router.get('/:id', getPost)
