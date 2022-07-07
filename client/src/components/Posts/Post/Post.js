@@ -13,11 +13,11 @@ import { deletePost, likePost } from "../../../actions/posts";
 import useStyles from "./styles";
 
 const Post = ({ post, setCurrentId }) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const history = useHistory();
   const user = JSON.parse(localStorage.getItem('profile'));
   const [likes, setLikes] = useState(post?.likes);
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const classes = useStyles();
 
   const userId = user?.result.googleId || user?.result?._id
   const hasLikedPost = post.likes.find((like) => like === userId);
