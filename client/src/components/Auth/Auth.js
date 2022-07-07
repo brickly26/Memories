@@ -4,10 +4,10 @@ import { GoogleLogin } from "react-google-login";
 import { gapi } from 'gapi-script'
 import { useDispatch } from 'react-redux'
 import { useHistory } from "react-router-dom";
+import LockOutlineIcon from "@material-ui/icons/LockOutlined";
 
 import { signin, signup } from '../../actions/auth'
 import Icon from './icon'
-import LockOutlineIcon from "@material-ui/icons/LockOutlined";
 import Input from "./Input";
 import useStyles from "./styles";
 
@@ -16,13 +16,12 @@ const clientId = "827411038781-a20bhmorup9qvgufvgs2muv400gh2776.apps.googleuserc
 const initialState = { firstName: '', lastName: '', email: '', password: '', confirmPassword: ''};
 
 const Auth = () => {
-  const classes = useStyles();
+  const [form, setForm] = useState(initialState);
+  const [isSignup, setIsSignup] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  const [formData, setFormData] = useState(initialState);
-  const [showPassword, setShowPassword] = useState(false);
-  const [isSignup, setIsSignup] = useState(false);
-
+  const classes = useStyles();
+  
   useEffect(() => {
     function start() {
       gapi.client.init({
@@ -30,28 +29,29 @@ const Auth = () => {
         scope: ""
       })
     };
-
+    
     gapi.load('client:auth2', start)
   }, [])
-
-  const handleShowPassword = () =>
-    setShowPassword((prevShowPassword) => !prevShowPassword);
+  
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     
     if(isSignup) {
-      dispatch(signup(formData, history))
+      dispatch(signup(form, history))
     } else {
-      dispatch(signin(formData, history))
+      dispatch(signin(form, history))
     }
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value })
+    setForm({ ...form, [e.target.name]: e.target.value })
   };
 
   const switchMode = () => {
+    setForm(initialState)
     setIsSignup((prevIsSignup) => !prevIsSignup);
     setShowPassword(false);
   };
@@ -69,17 +69,16 @@ const Auth = () => {
   };
 
   const googleFailure = (error) => {
-    console.log(error)
     console.log('Google Sign In was unsuccessful. Try Again Later');
   };
 
   return (
     <Container component="main" maxWidth="xs">
-      <Paper className={classes.paper} elevation={3}>
+      <Paper className={classes.paper} elevation={6}>
         <Avatar className={classes.avatar}>
           <LockOutlineIcon />
         </Avatar>
-        <Typography variant="h5">{isSignup ? "Sign Up" : "Sign In"}</Typography>
+        <Typography component="h1" variant="h5">{isSignup ? "Sign Up" : "Sign In"}</Typography>
         <form className={classes.form} onSubmit={handleSubmit}>
           <Grid container spacing={2}>
             {isSignup && (
