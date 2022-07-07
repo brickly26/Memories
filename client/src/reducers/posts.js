@@ -27,12 +27,12 @@ export default (state = { isLoading: true, posts: [] }, action) => {
             return { ...state, posts: state.posts.map(post => post._id === action.payload._id ? action.payload : post) }
         case COMMENT: 
             return { ...state, posts: state.posts.map((post) => {
-                if (post._id == +action.payload._id) return action.payload;
+                if (post._id === +action.payload._id) return action.payload;
                 
                 return post;
             })}
         case CREATE:
-            return { ... state, posts: [ ...state.posts, action.payload] };
+            return { ...state, posts: [ ...state.posts, action.payload] };
         case DELETE:
             return { ...state, posts: state.posts.filter(post => action.payload !== post._id) }
         case UPDATE:

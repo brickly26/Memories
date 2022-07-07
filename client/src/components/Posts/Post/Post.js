@@ -49,35 +49,37 @@ const Post = ({ post, setCurrentId }) => {
 
   return (
     <Card className={classes.card} raised elevation={6}>
-      <ButtonBase className={classes.card} onClick={openPost} >
-        <CardMedia className={classes.media} image={post.selectedFile} title={post.title} />
+      <ButtonBase component="span" name='test' className={classes.card} onClick={openPost} >
+        <CardMedia className={classes.media} image={post.selectedFile || "https://user-images.githubusercontent.com/194400/49531010-48dad180-f8b1-11e8-8d89-1e61320e1d82.png"} title={post.title} />
         <div className={classes.overlay}>
           <Typography vairant="h6">{post.name}</Typography>
           <Typography vairant="body2">{moment(post.createdAt).fromNow()}</Typography>
         </div>
         {(user?.result.googleId === post?.creator || user?.result?._id === post?.creator) && (
-          <div className={classes.overlay2}>
-            <Button style={{ color: 'white'}} size="small" onClick={() => setCurrentId(post._id)}>
-              <MoreHorizIcon fontSize="medium" />
+          <div className={classes.overlay2} name="edit">
+            <Button style={{ color: 'white' }} size="small" onClick={(e) => {
+              e.stopPropagation();
+              setCurrentId(post._id);
+            }}>
+              <MoreHorizIcon fontSize="default" />
             </Button>
           </div>
           )}
         <div className={classes.details}>
-          <Typography variant="body2" color="textSecondary">{post.tags.map(tag=> `#${tag} `)}</Typography>
+          <Typography variant="body2" color="textSecondary" component="h2" >{post.tags.map(tag=> `#${tag} `)}</Typography>
         </div>
-        <Typography className={classes.title} variant="h5" gutterBottom>{post.title}</Typography>
+        <Typography className={classes.title} variant="h5" gutterBottom component="h2" >{post.title}</Typography>
         <CardContent>
-          <Typography variant="body2" color="textSecondary" component="p">{post.message}</Typography>
+          <Typography variant="body2" color="textSecondary" component="p">{post.message.split(' ').splice(0, 20).join(' ')}...</Typography>
         </CardContent>
       </ButtonBase>
       <CardActions className={classes.cardActions}>
         <Button size="small" color="primary" disabled={!user?.result} onClick={handleLike} >
           <Likes />
         </Button>
-        {(user?.result.googleId === post?.creator || user?.result?._id === post?.creator) && (
+        {(user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
           <Button size="small" color="primary" onClick={() => dispatch(deletePost(post._id))} >
-          <DeleteIcon fontSize="small" />
-          Delete
+          <DeleteIcon fontSize="small" /> &nbsp: Delete
         </Button>
         )}
       </CardActions>
