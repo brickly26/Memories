@@ -8,7 +8,7 @@ import { getPost, getPostsBySearch } from '../../actions/posts';
 import CommentSection from './CommentSection';
 import useStyles from './styles';
 
-const Post = () => {
+const PostDetails = () => {
   const { post, posts, isLoading } = useSelector((state) => state.posts);
   const dispatch = useDispatch();
   const history = useHistory();
@@ -89,4 +89,4 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default PostDetails;
