@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { Container, Grow, Grid, Paper, AppBar, TextField, Button } from '@material-ui/core';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import Posts from '../Posts/Posts';
 import Form from '../Form/Form';
 import Paginate from '../Pagination';
-import { getPosts, getPostsBySearch } from '../../actions/posts';
+import { getPostsBySearch } from '../../actions/posts';
 
 import useStyles from './styles'
 import ChipInput from 'material-ui-chip-input';
@@ -18,7 +18,7 @@ function useQuery() {
 const Home = () => {
   const [search, setSearch] = useState('');
   const [tags, setTags] = useState([]);
-  const [currentId, setCurrentId] = useState(null);
+  const [currentId, setCurrentId] = useState(0);
   const dispatch = useDispatch();
   const classes = useStyles();
   const query = useQuery();
@@ -41,9 +41,9 @@ const Home = () => {
     }
   }
   
-  const handleAdd = (tag) => setTags([ ...tags, tag])
+  const handleAddChip = (tag) => setTags([ ...tags, tag])
 
-  const handleDelete = (tagToDelete) => setTags(tags.filter((tag) => tag !== tagToDelete))
+  const handleDeleteChip = (tagToDelete) => setTags(tags.filter((tag) => tag !== tagToDelete))
 
   return (
     <Grow in>
@@ -66,8 +66,8 @@ const Home = () => {
                 <ChipInput 
                   style={{ margin: '10px 0'}}
                   value={tags}
-                  onAdd={handleAdd}
-                  onDelete={handleDelete}
+                  onAdd={(chip) => handleAddChip(chip)}
+                  onDelete={(chip) => handleDeleteChip(chip)}
                   label="Search Tags"
                   variant="outlined"
                 />
