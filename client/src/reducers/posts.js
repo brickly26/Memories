@@ -32,7 +32,7 @@ export default (state = { isLoading: true, posts: [] }, action) => {
                 return post;
             })}
         case CREATE:
-            return { ... state, posts: [action.payload, ...state.posts] };
+            return { ... state, posts: [ ...state.posts, action.payload] };
         case DELETE:
             return { ...state, posts: state.posts.filter(post => action.payload !== post._id) }
         case UPDATE:
