@@ -46,10 +46,14 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (isSignup) {
-      dispatch(signup(form, history));
-    } else {
-      dispatch(signin(form, history));
+    try {
+      if (isSignup) {
+        dispatch(signup(form, history));
+      } else {
+        dispatch(signin(form, history));
+      }
+    } catch (error) {
+      console.log(error.message);
     }
   };
 
@@ -89,6 +93,7 @@ const SignUp = () => {
             <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
             { isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" /> }
           </Grid>
+
           <Button type="submit" fullWidth variant="contained" color="primary" className={classes.submit}>
             { isSignup ? 'Sign Up' : 'Sign In' }
           </Button>
