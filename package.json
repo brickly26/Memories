@@ -6,11 +6,10 @@
   },
   "description": "",
   "main": "server/index.js",
-  "stack": "heroku-22",
   "scripts": {
     "start": "node server/index.js",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
-    "install": "cd server && npm i && cd ../client && npm i --legacy-peer-deps",
+    "install": "cd ../client && npm i --legacy-peer-deps && cd server && npm i",
     "build": "cd client && npm run build"
   },
   "repository": {
