@@ -10,8 +10,6 @@ router.get('/search', getPostsBySearch);
 router.get('/', getPosts);
 router.get('/:id', getPost);
 
-console.log(auth)
-
 router.post('/', auth, createPost);
 router.patch('/:id', auth, updatePost);
 router.delete('/:id', auth, deletePost);
