@@ -1,4 +1,3 @@
-const express = require('express');
 const mongoose = require('mongoose');
 
 const PostMessage = require('../models/postMessage.js');
@@ -131,7 +130,7 @@ const commentPost = async (req, res) => {
     res.json(updatedPost);
 };
 
-module.export = {
+module.exports = {
     commentPost,
     getPosts,
     getPostsBySearch,

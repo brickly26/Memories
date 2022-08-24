@@ -23,4 +23,4 @@ const auth = async (req, res, next) => {
   }
 };
 
-module.export = auth;
+module.exports = auth;
