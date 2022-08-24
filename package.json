@@ -6,6 +6,7 @@
   },
   "description": "",
   "main": "server/index.js",
+  "stack": "heroku-22",
   "scripts": {
     "start": "node server/index.js",
     "develop": "concurrently \"cd server && npm run watch\" \"cd client && npm start\"",
