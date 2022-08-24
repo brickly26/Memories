@@ -3,8 +3,6 @@ import mongoose from 'mongoose';
 
 import PostMessage from '../models/postMessage.js';
 
-const router = express.Router();
-
 export const getPosts = async (req, res) => {
     const { page } = req.query;
     
@@ -133,4 +131,14 @@ export const commentPost = async (req, res) => {
     res.json(updatedPost);
 };
 
-module.export = router;
+module.export = {
+    commentPost,
+    getPosts,
+    getPostsBySearch,
+    getPostsByCreator,
+    getPost,
+    updatePost,
+    createPost,
+    deletePost,
+    likePost,
+}
